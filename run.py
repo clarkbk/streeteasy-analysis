@@ -48,7 +48,9 @@ with open('output.csv', 'w') as outfile:
 
     for b in buildings:
         with open(os.path.join('data', f'{b.id}.html'), 'r') as f:
-            soup = BeautifulSoup(f.read(), features='html.parser')
+            soup = BeautifulSoup(f.read(), features='lxml')
+            for linebreak in soup.find_all('br'):
+                linebreak.extract()
 
         for tr in soup.find_all('tr', class_='item'):
             tds = [td for td in tr.children if is_valid(td)]
